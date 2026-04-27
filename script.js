@@ -2,7 +2,7 @@ async function getWeather() {
   console.log("Button clicked");
 
   const city = document.getElementById("cityInput").value;
-  const apiKey = "YOUR_API_KEY";
+  const apiKey = "654dc4972d31a28461a7e9be96a78bf3";
 
   const weatherBox = document.getElementById("weatherResult");
   const loading = document.getElementById("loading");
@@ -10,31 +10,32 @@ async function getWeather() {
 
   try {
 
-    loading.classList.remove("hidden");
-    error.classList.add("hidden");
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+loading.classList.remove("hidden");
+error.classList.add("hidden");
 
-    const response = await fetch(url);
-    const data = await response.json();
+const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-    loading.classList.add("hidden");
+const response = await fetch(url);
+const data = await response.json();
 
-    if (data.cod === "404") {
-      error.classList.remove("hidden");
-      return;
-    }
+loading.classList.add("hidden");
 
-    weatherBox.classList.remove("hidden");
+// ❗ check if city is valid
+if (data.cod !== 200) {
+  error.classList.remove("hidden");
+  return;
+}
 
-    document.querySelector(".city").innerText = data.name;
-    document.querySelector(".description").innerText = data.weather[0].description;
-    document.querySelector(".temp").innerText = data.main.temp + "°C";
-    document.querySelector(".humidity").innerText = data.main.humidity + "%";
-    document.querySelector(".wind").innerText = data.wind.speed + " km/h";
+// ✅ show data
+document.querySelector(".city").innerText = data.name;
+document.querySelector(".description").innerText = data.weather[0].description;
+document.querySelector(".temp").innerText = data.main.temp + "°C";
+document.querySelector(".humidity").innerText = data.main.humidity + "%";
+document.querySelector(".wind").innerText = data.wind.speed + " km/h";
 
-    document.querySelector(".icon").src =
-      `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+document.querySelector(".icon").src =
+  `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png
 
     const weatherMain = data.weather[0].main.toLowerCase();
 
