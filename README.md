@@ -73,3 +73,17 @@ You need your own API key to run it locally.
 **Chinenye Egwu**
 
 ---
+# Weather App 🌤️
+
+A responsive weather application built with HTML, CSS, and JavaScript using the OpenWeather API.
+
+## Features
+- Search weather by city
+- Real-time temperature
+- Humidity display
+- Wind speed
+- Dynamic weather icons
+- Responsive UI
+
+## Live Demo
+https://egwuchinenye76-bit.github.io/weather-app/
