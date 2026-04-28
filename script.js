@@ -9,33 +9,36 @@ async function getWeather() {
   const error = document.getElementById("error");
 
   try {
+    if (!city) {
+      alert("Please enter a city");
+      return;
+    }
 
+    loading.classList.remove("hidden");
+    error.classList.add("hidden");
 
-loading.classList.remove("hidden");
-error.classList.add("hidden");
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const response = await fetch(url);
+    const data = await response.json();
 
-const response = await fetch(url);
-const data = await response.json();
+    loading.classList.add("hidden");
 
-loading.classList.add("hidden");
+    if (data.cod != 200) {
+      error.classList.remove("hidden");
+      return;
+    }
 
-// ❗ check if city is valid
-if (data.cod !== 200) {
-  error.classList.remove("hidden");
-  return;
-}
+    weatherBox.classList.remove("hidden");
 
-// ✅ show data
-document.querySelector(".city").innerText = data.name;
-document.querySelector(".description").innerText = data.weather[0].description;
-document.querySelector(".temp").innerText = data.main.temp + "°C";
-document.querySelector(".humidity").innerText = data.main.humidity + "%";
-document.querySelector(".wind").innerText = data.wind.speed + " km/h";
+    document.querySelector(".city").innerText = data.name;
+    document.querySelector(".description").innerText = data.weather[0].description;
+    document.querySelector(".temp").innerText = data.main.temp + "°C";
+    document.querySelector(".humidity").innerText = data.main.humidity + "%";
+    document.querySelector(".wind").innerText = data.wind.speed + " km/h";
 
-document.querySelector(".icon").src =
-  `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png
+    document.querySelector(".icon").src =
+      `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
 
     const weatherMain = data.weather[0].main.toLowerCase();
 
